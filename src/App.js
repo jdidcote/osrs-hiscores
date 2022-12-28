@@ -1,5 +1,13 @@
+import * as React from "react";
+
+// 1. import `ChakraProvider` component
+import { ChakraProvider } from "@chakra-ui/react";
+
+import { Button } from "@chakra-ui/react";
+
 function App() {
-  return <div className="App">test</div>;
+  // 2. Wrap ChakraProvider at the root of your app
+  return <ChakraProvider>App</ChakraProvider>;
 }
 
 export default App;
