@@ -1,13 +1,31 @@
 import * as React from "react";
 
-// 1. import `ChakraProvider` component
-import { ChakraProvider } from "@chakra-ui/react";
-
-import { Button } from "@chakra-ui/react";
+import { ChakraProvider, Container } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import ItemHistoryPlot from "./components/ItemHistoryPlot";
+import ItemSearch from "./components/ItemSearch";
+import getItemMapping from "./item-prices/itemMapping";
 
 function App() {
-  // 2. Wrap ChakraProvider at the root of your app
-  return <ChakraProvider>App</ChakraProvider>;
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const [itemMapping, setItemMapping] = useState("");
+  useEffect(() => {
+    getItemMapping().then((data) => setItemMapping(data));
+  }, []);
+
+  return (
+    <ChakraProvider>
+      <Container maxW="lg" marginTop="14">
+        <ItemSearch
+          itemMapping={itemMapping}
+          selectedItem={selectedItem}
+          setSelectedItem={setSelectedItem}
+        ></ItemSearch>
+        <ItemHistoryPlot selectedItem={selectedItem}></ItemHistoryPlot>
+      </Container>
+    </ChakraProvider>
+  );
 }
 
 export default App;
