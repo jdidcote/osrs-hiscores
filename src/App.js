@@ -16,7 +16,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Container maxW="lg" marginTop="14">
+      <Container maxW="1000px" minW="500px" marginTop="14">
         <ItemSearch
           itemMapping={itemMapping}
           selectedItem={selectedItem}
