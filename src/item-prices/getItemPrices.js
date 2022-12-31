@@ -1,11 +1,11 @@
 import { WIKI_API } from "./common";
 
-const getItemPriceHistory = async (itemId) => {
+const getItemPriceHistory = async (itemId, freq = "6h") => {
   const url = new URL(WIKI_API + "/timeseries");
 
   const params = {
     id: itemId,
-    timestep: "6h",
+    timestep: freq,
   };
 
   for (const [k, v] of Object.entries(params)) {

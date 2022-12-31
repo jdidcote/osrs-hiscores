@@ -1,3 +1,4 @@
+import { FormControl, FormLabel, Select } from "@chakra-ui/react";
 import { Chart, registerables } from "chart.js";
 import "chartjs-adapter-date-fns";
 import React, { useEffect, useState } from "react";
@@ -19,18 +20,33 @@ const plotOptions = {
 
 export default function ItemHistoryPlot(props) {
   const [itemHistory, setItemHistory] = useState(null);
+  const [dataFreq, setDataFreq] = useState("6h");
 
   useEffect(() => {
     if (props.selectedItem) {
-      getItemPriceHistory(props.selectedItem["id"]).then((data) => {
+      getItemPriceHistory(props.selectedItem["id"], dataFreq).then((data) => {
         setItemHistory(data);
       });
     }
-  }, [props.selectedItem]);
+  }, [props.selectedItem, dataFreq]);
 
   if (itemHistory) {
     return (
-      <Line options={plotOptions} data={formatItemsForChart(itemHistory)} />
+      <>
+        <FormControl>
+          <FormLabel>Frequency</FormLabel>
+          <Select
+            maxW="200"
+            defaultValue={dataFreq}
+            onChange={(e) => setDataFreq(e.target.value)}
+          >
+            <option value="5m">5 minutes</option>
+            <option value="1h">1 hour</option>
+            <option value="6h">6 hours</option>
+          </Select>
+        </FormControl>
+        <Line options={plotOptions} data={formatItemsForChart(itemHistory)} />
+      </>
     );
   }
 }
@@ -40,16 +56,10 @@ const formatItemsForChart = (items) => {
     return;
   }
 
-  // const labels = [];
-  // const highPrices = [];
-
   const highPrices = [];
   const lowPrices = [];
 
   for (const item of items["data"]) {
-    // labels.push(new Date(item["timestamp"]));
-    // highPrices.push(item["avgHighPrice"]);
-
     highPrices.push({
       x: new Date(item["timestamp"] * 1e3),
       y: item["avgHighPrice"],
@@ -67,11 +77,13 @@ const formatItemsForChart = (items) => {
         label: "High price",
         data: highPrices,
         borderWidth: 1.5,
+        pointRadius: 1,
       },
       {
         label: "Low price",
         data: lowPrices,
         borderWidth: 1.5,
+        pointRadius: 1,
       },
     ],
   };
