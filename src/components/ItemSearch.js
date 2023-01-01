@@ -1,6 +1,6 @@
-import { Container, FormControl } from "@chakra-ui/react";
-import React, { useState } from "react";
-import Select, { createFilter } from "react-select";
+import { Container } from "@chakra-ui/react";
+import React from "react";
+import Select from "react-select";
 import { FixedSizeList as List } from "react-window";
 
 const CustomMenuList = (props) => {
