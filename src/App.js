@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ChakraProvider, Container } from "@chakra-ui/react";
+import { Center, ChakraProvider, Container, Heading } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import ItemHistoryPlot from "./components/ItemHistoryPlot";
 import ItemSearch from "./components/ItemSearch";
@@ -16,7 +16,18 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Container maxW="1000px" minW="500px" marginTop="14">
+      <Container
+        maxW="1000px"
+        minW="500px"
+        paddingTop="5"
+        paddingBottom="5"
+        border="1px"
+      >
+        <Center>
+          <Heading marginBottom={2} alignContent="center">
+            OSRS Grand Exchange Prices
+          </Heading>
+        </Center>
         <ItemSearch
           itemMapping={itemMapping}
           selectedItem={selectedItem}

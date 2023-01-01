@@ -37,7 +37,7 @@ export default function ItemSearch(props) {
   const labels = getLabels();
 
   return (
-    <Container mb={16}>
+    <Container mb={0} maxW={400}>
       <Select
         isMulti={false}
         options={labels}
