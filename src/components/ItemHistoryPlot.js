@@ -36,6 +36,7 @@ export default function ItemHistoryPlot(props) {
       getItemPriceHistory(props.selectedItem["id"], dataFreq).then((data) => {
         setItemHistory(data);
       });
+      setForecast(null);
     }
   }, [props.selectedItem, dataFreq]);
 
@@ -96,12 +97,14 @@ const formatItemsForChart = (items, forecastItems) => {
         data: highPrices,
         borderWidth: 1.5,
         pointRadius: 1,
+        borderColor: red,
       },
       {
         label: "Low price",
         data: lowPrices,
         borderWidth: 1.5,
         pointRadius: 1,
+        borderColor: blue,
       },
     ],
   };
@@ -124,7 +127,7 @@ const formatItemsForChart = (items, forecastItems) => {
       data: forecastHighPrices,
       borderWidth: 1.5,
       pointRadius: 1,
-      backgroundColor: red,
+      borderColor: red,
     });
 
     plotItems.datasets.push({
@@ -132,7 +135,7 @@ const formatItemsForChart = (items, forecastItems) => {
       data: forecastLowPrices,
       borderWidth: 1.5,
       pointRadius: 1,
-      backgroundColor: blue,
+      borderColor: blue,
     });
   }
   console.log(plotItems);
