@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pandas as pd
 from pydantic import BaseModel, validator
 
@@ -9,10 +11,10 @@ def to_camel_case(snake_str: str) -> str:
 
 class ItemHistoryTimestep(BaseModel):
     timestamp: int
-    avg_high_price: float
-    avg_low_price: float
-    high_price_volume: float
-    low_price_volume: float
+    avg_high_price: Optional[float]
+    avg_low_price: Optional[float]
+    high_price_volume: Optional[float]
+    low_price_volume: Optional[float]
 
     class Config:
         alias_generator = to_camel_case

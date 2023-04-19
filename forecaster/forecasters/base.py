@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
+from forecasters.utils import handle_missing_values
 from models import ItemHistoryTimestep, ItemHistory
 
 
@@ -46,6 +47,8 @@ class BaseForecaster(ABC):
             n_timesteps: int
     ) -> ItemHistory:
         df = item_history.to_df()
+        df = handle_missing_values(df)
+
         future_timesteps = self._generate_future_timesteps(
             start=df["timestamp"].max(),
             n_timesteps=n_timesteps,
