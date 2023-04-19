@@ -128,6 +128,8 @@ const formatItemsForChart = (items, forecastItems) => {
       borderWidth: 1.5,
       pointRadius: 1,
       borderColor: red,
+      borderDash: [5, 5],
+      fill: false,
     });
 
     plotItems.datasets.push({
@@ -136,9 +138,9 @@ const formatItemsForChart = (items, forecastItems) => {
       borderWidth: 1.5,
       pointRadius: 1,
       borderColor: blue,
+      borderDash: [5, 5],
+      fill: false,
     });
   }
-  console.log(plotItems);
-
   return plotItems;
 };
