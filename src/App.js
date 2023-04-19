@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import ItemHistoryPlot from "./components/ItemHistoryPlot";
 import ItemSearch from "./components/ItemSearch";
 import getItemMapping from "./item-prices/itemMapping";
-
 import ThemeSlider from "./components/themeSlider";
 import theme from "./theme";
 

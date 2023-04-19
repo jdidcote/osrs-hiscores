@@ -4,6 +4,9 @@ import "chartjs-adapter-date-fns";
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import getItemPriceHistory from "../item-prices/getItemPrices";
+import ForecastButton from "./ForecastButton";
+import forecastItemPrices from "../item-prices/forecastItemPrices";
+
 Chart.register(...registerables);
 
 const plotOptions = {
@@ -20,7 +23,13 @@ const plotOptions = {
 
 export default function ItemHistoryPlot(props) {
   const [itemHistory, setItemHistory] = useState(null);
+  const [forecast, setForecast] = useState(null);
   const [dataFreq, setDataFreq] = useState("6h");
+
+  const forecastPrices = async () => {
+    const forecast = await forecastItemPrices(itemHistory, dataFreq);
+    setForecast(forecast);
+  };
 
   useEffect(() => {
     if (props.selectedItem) {
@@ -45,19 +54,28 @@ export default function ItemHistoryPlot(props) {
             <option value="6h">6 hours</option>
           </Select>
         </FormControl>
-        <Line options={plotOptions} data={formatItemsForChart(itemHistory)} />
+        <Line
+          options={plotOptions}
+          data={formatItemsForChart(itemHistory, forecast)}
+        />
+        <ForecastButton handleClick={forecastPrices}></ForecastButton>
       </>
     );
   }
 }
 
-const formatItemsForChart = (items) => {
+const formatItemsForChart = (items, forecastItems) => {
   if (!items) {
     return;
   }
 
+  const red = "#FF6384";
+  const blue = "#36A2EB";
+
   const highPrices = [];
   const lowPrices = [];
+  const forecastHighPrices = [];
+  const forecastLowPrices = [];
 
   for (const item of items["data"]) {
     highPrices.push({
@@ -71,7 +89,7 @@ const formatItemsForChart = (items) => {
     });
   }
 
-  return {
+  const plotItems = {
     datasets: [
       {
         label: "High price",
@@ -87,4 +105,37 @@ const formatItemsForChart = (items) => {
       },
     ],
   };
+
+  if (forecastItems) {
+    for (const item of forecastItems["data"]) {
+      forecastHighPrices.push({
+        x: new Date(item["timestamp"] * 1e3),
+        y: item["avgHighPrice"],
+      });
+
+      forecastLowPrices.push({
+        x: new Date(item["timestamp"] * 1e3),
+        y: item["avgLowPrice"],
+      });
+    }
+
+    plotItems.datasets.push({
+      label: "Forecast high price",
+      data: forecastHighPrices,
+      borderWidth: 1.5,
+      pointRadius: 1,
+      backgroundColor: red,
+    });
+
+    plotItems.datasets.push({
+      label: "Forecast low price",
+      data: forecastLowPrices,
+      borderWidth: 1.5,
+      pointRadius: 1,
+      backgroundColor: blue,
+    });
+  }
+  console.log(plotItems);
+
+  return plotItems;
 };
