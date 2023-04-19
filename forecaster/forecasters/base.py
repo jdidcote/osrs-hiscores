@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
+from forecasters.utils import handle_missing_values
 from models import ItemHistoryTimestep, ItemHistory
 
 
@@ -31,7 +32,13 @@ class BaseForecaster(ABC):
         ]
 
     @abstractmethod
-    def _predict(self, item_history: ItemHistory, n_timesteps: int) -> pd.DataFrame:
+    def _predict(
+            self,
+            df: pd.DataFrame,
+            item_history: ItemHistory,
+            n_timesteps: int,
+            future_timesteps: list[float]
+    ) -> pd.DataFrame:
         pass
 
     def predict(
@@ -39,5 +46,13 @@ class BaseForecaster(ABC):
             item_history: ItemHistory,
             n_timesteps: int
     ) -> ItemHistory:
-        preds = self._predict(item_history, n_timesteps)
+        df = item_history.to_df()
+        df = handle_missing_values(df)
+
+        future_timesteps = self._generate_future_timesteps(
+            start=df["timestamp"].max(),
+            n_timesteps=n_timesteps,
+            freq=item_history.freq
+        )
+        preds = self._predict(df, item_history, n_timesteps, future_timesteps)
         return _to_item_history(preds, item_history.item_id, item_history.freq)

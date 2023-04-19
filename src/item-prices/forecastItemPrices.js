@@ -1,5 +1,6 @@
 const forecastItemPrices = async (itemHistory, freq) => {
   itemHistory.freq = freq;
+  console.log(itemHistory);
 
   const response = await fetch("http://0.0.0.0:8000/forecast", {
     method: "POST",

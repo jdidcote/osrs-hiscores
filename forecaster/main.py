@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from forecasters.simple import SimpleForecaster
+from forecasters.simple import ExpoMovingAverageForecaster
 from models import ItemHistory
 
 app = FastAPI()
@@ -22,9 +22,8 @@ app.add_middleware(
 
 @app.post("/forecast")
 def forecast_prices(item_history: ItemHistory) -> ItemHistory:
-    print(item_history)
-    forecaster = SimpleForecaster()
-    forecast = forecaster.predict(item_history, 100)
+    forecaster = ExpoMovingAverageForecaster()
+    forecast = forecaster.predict(item_history, 30)
     return forecast
 
 
