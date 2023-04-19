@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from forecaster import SimpleForecaster
-from models import ItemHistory, ItemHistoryTimestep
+from forecasters.simple import SimpleForecaster
+from models import ItemHistory
 
 app = FastAPI()
 
