@@ -1,6 +1,5 @@
-import { useColorMode, Button } from "@chakra-ui/react";
+import { useColorMode } from "@chakra-ui/react";
 import { FormControl, FormLabel, Switch } from "@chakra-ui/react";
-import { useContext } from "react";
 
 function ThemeSlider() {
   const { colorMode, toggleColorMode } = useColorMode();

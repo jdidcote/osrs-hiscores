@@ -1,5 +1,5 @@
 import { Container } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 import { Select } from "chakra-react-select";
 import { FixedSizeList as List } from "react-window";
 
@@ -20,7 +20,7 @@ const CustomMenuList = (props) => {
         itemCount={children.length}
         itemSize={itemHeight}
         initialScrollOffset={initialOffset}
-        style={{ backgroundColor: colorMode == "dark" ? "black" : "white" }}
+        style={{ backgroundColor: colorMode === "dark" ? "black" : "white" }}
       >
         {({ index, style }) => <div style={style}>{children[index]}</div>}
       </List>
