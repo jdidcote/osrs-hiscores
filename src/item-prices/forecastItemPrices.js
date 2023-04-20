@@ -2,7 +2,7 @@ const forecastItemPrices = async (itemHistory, freq) => {
   itemHistory.freq = freq;
   console.log(itemHistory);
 
-  const response = await fetch("http://0.0.0.0:8000/forecast", {
+  const response = await fetch("http://127.0.0.1:8000/forecast", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
