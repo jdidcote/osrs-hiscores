@@ -13,11 +13,4 @@ function ThemeSlider() {
   );
 }
 
-<FormControl display="flex" alignItems="center">
-  <FormLabel htmlFor="email-alerts" mb="0">
-    Enable email alerts?
-  </FormLabel>
-  <Switch id="email-alerts" />
-</FormControl>;
-
 export default ThemeSlider;
