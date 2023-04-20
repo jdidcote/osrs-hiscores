@@ -6,6 +6,7 @@ import { Line } from "react-chartjs-2";
 import getItemPriceHistory from "../item-prices/getItemPrices";
 import ForecastButton from "./ForecastButton";
 import forecastItemPrices from "../item-prices/forecastItemPrices";
+import DateRangeSlider from "./DateRangeSlider";
 
 Chart.register(...registerables);
 
@@ -24,11 +25,21 @@ const plotOptions = {
 export default function ItemHistoryPlot(props) {
   const [itemHistory, setItemHistory] = useState(null);
   const [forecast, setForecast] = useState(null);
+  const [sliderValue, setSliderValue] = useState(0);
   const [dataFreq, setDataFreq] = useState("6h");
 
   const forecastPrices = async () => {
     const forecast = await forecastItemPrices(itemHistory, dataFreq);
     setForecast(forecast);
+  };
+
+  const handleSliderChange = (e) => {
+    setSliderValue(e);
+  };
+
+  const limitItemHistory = (itemHistory, sliderValue) => {
+    const limitedItemHistory = itemHistory["data"].slice(sliderValue);
+    return { ...itemHistory, data: limitedItemHistory };
   };
 
   useEffect(() => {
@@ -55,9 +66,17 @@ export default function ItemHistoryPlot(props) {
             <option value="6h">6 hours</option>
           </Select>
         </FormControl>
+        <DateRangeSlider
+          handleSliderChange={handleSliderChange}
+          value={sliderValue}
+          nTimesteps={itemHistory["data"].length}
+        ></DateRangeSlider>
         <Line
           options={plotOptions}
-          data={formatItemsForChart(itemHistory, forecast)}
+          data={formatItemsForChart(
+            limitItemHistory(itemHistory, sliderValue),
+            forecast
+          )}
         />
         <ForecastButton handleClick={forecastPrices}></ForecastButton>
       </>
