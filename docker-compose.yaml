@@ -1,0 +1,18 @@
+services:
+  forecaster:
+    build: ./forecaster
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+  ui:
+    build: ./ui
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+    depends_on:
+      - forecaster
+networks:
+  backend:
+    driver: bridge
