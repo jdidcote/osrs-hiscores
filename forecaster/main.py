@@ -7,8 +7,8 @@ from models import ItemHistory
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",
-    "localhost:3000"
+    "http://127.0.0.1:3000",
+    "127.0.0.1:3000"
 ]
 
 app.add_middleware(
@@ -19,13 +19,15 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-
 @app.post("/forecast")
 def forecast_prices(item_history: ItemHistory) -> ItemHistory:
     forecaster = ProphetForecaster()
     forecast = forecaster.predict(item_history, 50)
     return forecast
 
+# @app.get("test")
+# def test():
+#     ...
 
 if __name__ == '__main__':
     import uvicorn
